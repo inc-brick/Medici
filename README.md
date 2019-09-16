@@ -1,1 +1,5 @@
-# This is medici project
+# medici project  
+  
+## front  
+
+## server  
