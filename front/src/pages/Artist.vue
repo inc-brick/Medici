@@ -8,7 +8,7 @@
     <h2>Upcoming Events</h2>
     <EventView :urls="urls"></EventView>
     <h2>Contacts</h2>
-    <i class="el-icon-shopping-cart-2"></i>
+    <router-link to="/contact"><i class="el-icon-shopping-cart-2"></i></router-link>
     <h2>Media</h2>
     <MediaView :urls="urls"></MediaView>
   </div>

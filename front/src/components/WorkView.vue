@@ -1,6 +1,6 @@
 <template>
   <div class="block">
-    <el-carousel trigger="click" height="150px" indicator-position="outside" arrow="always">
+    <el-carousel trigger="click" height="150px" indicator-position="outside" arrow="always" autoplay="autoplay">
       <el-carousel-item v-for="item in 4" :key="item">
         <h3 class="small">{{ item }}</h3>
       </el-carousel-item>
@@ -16,7 +16,8 @@ export default {
     },
     data() {
         return {
-            fit: 'fill'
+            fit: 'fill',
+            autoplay: false
         }
     }
 }
