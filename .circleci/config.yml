@@ -10,7 +10,7 @@ jobs:
           gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
 
   build:
-    working_directory: ~/front
+    working_directory: /home//front
     docker:
       - image: node:9.4.0
     steps:
