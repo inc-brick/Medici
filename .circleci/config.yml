@@ -1,8 +1,42 @@
 version: 2
 jobs:
+  authorize:
+    docker:
+      - image: google/cloud-sdk
+    steps:
+      - run: |
+          sudo gcloud --quiet components update
+          echo $GCLOUD_SERVICE_KEY | gcloud auth activate-servie-account --key-file=-
+          gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+          gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+
   build:
+    working_directory: ~/front
     docker:
       - image: node:9.4.0
     steps:
       - checkout
-      - run: echo "A first Hello"
+      - restore_cache:
+        key: npm-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
+          name: Build
+          command: npm run build
+      - run:
+          name: Check dist
+          command: ls -la front/dist
+      - save_cache:
+          key: yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/front/node_modules
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - authorize
+      - build:
+          requires:
+            - authorize
