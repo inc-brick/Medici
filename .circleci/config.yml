@@ -10,7 +10,7 @@ jobs:
           gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
 
   build:
-    working_directory: /home//front
+    working_directory: /home/dev_incbrick/Medici/front
     docker:
       - image: node:9.4.0
     steps:
@@ -29,7 +29,7 @@ jobs:
       - save_cache:
           key: yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
-            - ~/front/node_modules
+            - /home/dev_incbrick/Medici/front/node_modules
 
 workflows:
   version: 2
