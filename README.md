@@ -2,6 +2,6 @@
   
 ## front  
 ### 完成イメージはこちら
-https://inc-brick.github.io/Medici/#/
+http://34.84.132.101:3000/#/
 
 ## server  
