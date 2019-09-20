@@ -16,7 +16,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-        key: npm-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          key: npm-{{ .Branch }}-{{ checksum "package-lock.json" }}
       - run:
           name: Install dependencies
           command: npm install
