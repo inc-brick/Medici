@@ -9,12 +9,12 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/artist/:id',
       name: 'Artist',
       component: Artist
     },
     {
-      path: '/contact',
+      path: '/contact/:id',
       name: 'Contact',
       component: Contact
     },

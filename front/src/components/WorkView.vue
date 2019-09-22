@@ -1,8 +1,12 @@
 <template>
   <div class="block">
-    <el-carousel trigger="click" height="150px" indicator-position="outside" arrow="always" autoplay="autoplay">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <h3 class="small">{{ item }}</h3>
+    <el-carousel :trigger="carouselConfig.trigger" :indicator-position="carouselConfig.indicatorPosition" :arrow="carouselConfig.arrow" :autoplay="carouselConfig.autoplay" @change="changeWork">
+      <el-carousel-item v-for="url in urls" :key="url">
+        <el-image :src="url" :fit="carouselConfig.fit" class="style">
+          <div slot="error" class="image-slot">
+            <i class="el-icon-picture-outline"></i>
+          </div>
+        </el-image>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -16,8 +20,19 @@ export default {
     },
     data() {
         return {
-            fit: 'fill',
-            autoplay: false
+            carouselConfig: {
+                trigger: 'click',
+                indicatorPosition: 'outside',
+                arrow: 'always',
+                fit: 'contain',
+                autoplay: false,
+            }
+        }
+    },
+    methods: {
+        changeWork: function (newIndex, oldIndex) {
+            console.log("changing-work: to: " + newIndex + " from: " + oldIndex)
+            this.$emit("changing-work", newIndex)
         }
     }
 }
@@ -25,19 +40,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 150px;
-  margin: 0;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
+.style {
+  height: 300px;
+  width: 100%;
 }
 </style>

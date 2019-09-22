@@ -2,15 +2,15 @@
   <div class="artist">
     <h3>山本　捷平</h3>
     <h3>Shohei Yamamoto</h3>
-    <WorkView :urls="urls"></WorkView>
+    <WorkView :urls="paths.work" @changing-work="changeWork"></WorkView>
     <h2>About</h2>
     <p>ここのそのアーティストについての内容</p>
     <h2>Upcoming Events</h2>
-    <EventView :urls="urls"></EventView>
+    <EventView :urls="paths.event"></EventView>
     <h2>Contacts</h2>
-    <router-link to="/contact"><i class="el-icon-shopping-cart-2"></i></router-link>
+    <router-link :to="{ name : 'Contact', params : { id: artistId }}"><i class="el-icon-shopping-cart-2"></i></router-link>
     <h2>Media</h2>
-    <MediaView :urls="urls"></MediaView>
+    <MediaView :urls="paths.media"></MediaView>
   </div>
 </template>
 
@@ -18,6 +18,7 @@
 import WorkView from "../components/WorkView";
 import EventView from "../components/EventView";
 import MediaView from "../components/MediaView";
+import axios from "axios"
 
 export default {
   name: "artist",
@@ -25,12 +26,40 @@ export default {
   data () {
       return {
           msg: 'Welcome to Your Vue.js App',
-          urls: ['https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg']
+          artistId: 0,
+          paths: {
+              work: ['https://www.nao.ac.jp/news/sp/20190410-eht/images/20190410-eht-m87bh-s.jpg',
+                  'https://www.nao.ac.jp/news/sp/20190410-eht/images/20190410-eht-m87-cgimage-s.jpg',
+                  'https://www.nao.ac.jp/news/sp/20190410-eht/images/m87-eso-s.jpg',
+                  'https://www.nao.ac.jp/news/sp/20190410-eht/images/20190410-eht-bhshadow-s.jpg'],
+              event: ['https://www.nao.ac.jp/news/sp/20190410-eht/images/20190410-eht-m87bh-s.jpg',
+                  'https://www.nao.ac.jp/news/sp/20190410-eht/images/20190410-eht-m87-cgimage-s.jpg',
+                  'https://www.nao.ac.jp/news/sp/20190410-eht/images/m87-eso-s.jpg',
+                  'https://www.nao.ac.jp/news/sp/20190410-eht/images/20190410-eht-bhshadow-s.jpg'],
+              media: ['https://www.nao.ac.jp/news/sp/20190410-eht/images/20190410-eht-m87bh-s.jpg',
+                  'https://www.nao.ac.jp/news/sp/20190410-eht/images/20190410-eht-m87-cgimage-s.jpg',
+                  'https://www.nao.ac.jp/news/sp/20190410-eht/images/m87-eso-s.jpg',
+                  'https://www.nao.ac.jp/news/sp/20190410-eht/images/20190410-eht-bhshadow-s.jpg']
+          },
+          currentSelectedWork: '',
+          currentSelectedEvent: ''
       }
+  },
+  methods: {
+      changeWork: function (newIndex) {
+          this.currentSelectedWork = this.paths.work[newIndex]
+          console.log(this.currentSelectedWork)
+      }
+  },
+  created() {
+      axios.get("localhost:8080").then(res => console.log("connected to the server")).catch(() => console.log("failed to connect"))
+      this.artistId = this.$route.params['id']
   }
 }
 </script>
 
 <style scoped>
-
+.el-icon-shopping-cart-2 {
+  font-size: 4rem;
+}
 </style>
