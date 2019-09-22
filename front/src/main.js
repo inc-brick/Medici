@@ -11,6 +11,14 @@ import connector from "./connector";
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);
+let VueTouch = require('vue-touch')
+VueTouch.config.swipeRight = {
+  threshold: 200
+}
+VueTouch.config.swipeLeft = {
+  threshold: 200
+}
+Vue.use(VueTouch)
 
 /* eslint-disable no-new */
 new Vue({
