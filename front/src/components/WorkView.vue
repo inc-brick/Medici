@@ -1,12 +1,13 @@
 <template>
   <div class="block">
-    <v-touch v-on:swiperight="swipeRight" v-on:swipeleft="swipeLeft">
-      <el-carousel :trigger="carouselConfig.trigger"
-                   :indicator-position="carouselConfig.indicatorPosition"
-                   :arrow="carouselConfig.arrow"
-                   :autoplay="carouselConfig.autoplay"
-                   ref="carousel"
-                   @change="changeWork">
+    <el-carousel :trigger="carouselConfig.trigger"
+                 :indicator-position="carouselConfig.indicatorPosition"
+                 :arrow="carouselConfig.arrow"
+                 :autoplay="carouselConfig.autoplay"
+                 ref="carousel"
+                 v-touch:swipe.left="swipeLeft"
+                 v-touch:swipe.right="swipeRight"
+                 @change="changeWork">
         <el-carousel-item v-for="url in urls" :key="url">
           <el-image :src="url"
                     :fit="carouselConfig.fit"
@@ -17,8 +18,7 @@
             </div>
           </el-image>
         </el-carousel-item>
-      </el-carousel>
-    </v-touch>
+    </el-carousel>
   </div>
 </template>
 
@@ -45,10 +45,12 @@ export default {
             this.$emit("changing-work", newIndex)
         },
         swipeRight: function () {
-            this.$refs.carousel.next
+            console.log("swipe to right")
+            this.$refs.carousel.prev()
         },
         swipeLeft: function () {
-            this.$refs.carousel.prev
+            console.log("swipe to left")
+            this.$refs.carousel.next()
         }
     }
 }
