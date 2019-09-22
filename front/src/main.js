@@ -8,9 +8,11 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
 import Header from "./components/Header";
 import connector from "./connector";
+import Vue2TouchEvents from "vue2-touch-events";
 
 Vue.config.productionTip = false
-Vue.use(ElementUI);
+Vue.use(ElementUI)
+Vue.use(Vue2TouchEvents)
 
 /* eslint-disable no-new */
 new Vue({

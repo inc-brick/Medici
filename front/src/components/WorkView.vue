@@ -1,13 +1,23 @@
 <template>
   <div class="block">
-    <el-carousel :trigger="carouselConfig.trigger" :indicator-position="carouselConfig.indicatorPosition" :arrow="carouselConfig.arrow" :autoplay="carouselConfig.autoplay" @change="changeWork">
-      <el-carousel-item v-for="url in urls" :key="url">
-        <el-image :src="url" :fit="carouselConfig.fit" class="style">
-          <div slot="error" class="image-slot">
-            <i class="el-icon-picture-outline"></i>
-          </div>
-        </el-image>
-      </el-carousel-item>
+    <el-carousel :trigger="carouselConfig.trigger"
+                 :indicator-position="carouselConfig.indicatorPosition"
+                 :arrow="carouselConfig.arrow"
+                 :autoplay="carouselConfig.autoplay"
+                 ref="carousel"
+                 v-touch:swipe.left="swipeLeft"
+                 v-touch:swipe.right="swipeRight"
+                 @change="changeWork">
+        <el-carousel-item v-for="url in urls" :key="url">
+          <el-image :src="url"
+                    :fit="carouselConfig.fit"
+                    class="style"
+          >
+            <div slot="error" class="image-slot">
+              <i class="el-icon-picture-outline"></i>
+            </div>
+          </el-image>
+        </el-carousel-item>
     </el-carousel>
   </div>
 </template>
@@ -33,6 +43,14 @@ export default {
         changeWork: function (newIndex, oldIndex) {
             console.log("changing-work: to: " + newIndex + " from: " + oldIndex)
             this.$emit("changing-work", newIndex)
+        },
+        swipeRight: function () {
+            console.log("swipe to right")
+            this.$refs.carousel.prev()
+        },
+        swipeLeft: function () {
+            console.log("swipe to left")
+            this.$refs.carousel.next()
         }
     }
 }
