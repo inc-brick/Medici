@@ -1,11 +1,15 @@
 <template>
-  <img src="./../assets/brick-logo.png" style="height: 30px; width: 60px">
+  <header>
+  　<div class="header">
+      <img src="./../assets/brick-logo.png" style="height: 30px; width: 60px">
 <!--  <el-header :height=height class="header_title">-->
 <!--    <el-image-->
 <!--      style="width: 100px; height: 100px"-->
 <!--      :src="url"-->
 <!--      :fit="fit"></el-image>-->
 <!--  </el-header>-->
+    </div>
+  </header>
 </template>
 
 <script>
@@ -23,6 +27,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.header {
+  display: flex;
+}
+
 .header_title {
   font-size: 18px;
   font-weight: bold;
