@@ -1,5 +1,5 @@
 <template>
-  <div class="artist">
+  <el-main>
     <h3>山本　捷平</h3>
     <h3>Shohei Yamamoto</h3>
     <WorkView :urls="paths.work" @changing-work="changeWork"></WorkView>
@@ -11,7 +11,7 @@
     <router-link :to="{ name : 'Contact', params : { id: artistId }}"><i class="el-icon-shopping-cart-2"></i></router-link>
     <h2>Media</h2>
     <MediaView :urls="paths.media"></MediaView>
-  </div>
+  </el-main>
 </template>
 
 <script>
@@ -61,5 +61,8 @@ export default {
 <style scoped>
 .el-icon-shopping-cart-2 {
   font-size: 4rem;
+}
+.el-main {
+  padding: 60px 20px 20px;
 }
 </style>

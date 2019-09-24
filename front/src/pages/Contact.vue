@@ -1,5 +1,5 @@
 <template>
-  <div class="contact">
+  <el-main>
     <h3>Contact</h3>
     <p>3 step で完了します</p>
     <h4>1. ご興味のある作品を選択してください</h4>
@@ -18,7 +18,7 @@
         <el-button type="primary" @click="submit">Submit</el-button>
       </el-form-item>
     </el-form>
-  </div>
+  </el-main>
 </template>
 
 <script>

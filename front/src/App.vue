@@ -1,8 +1,10 @@
 <template>
-  <div id="app">
+  <el-container class="is-vertical">
     <Header></Header>
-    <router-view/>
-  </div>
+    <el-container>
+      <router-view/>
+    </el-container>
+  </el-container>
 </template>
 
 <script>
@@ -17,5 +19,8 @@ export default {
 <style>
 #app {
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+body {
+  margin: 0;
 }
 </style>
