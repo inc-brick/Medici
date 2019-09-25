@@ -21,6 +21,7 @@ export default {
 .el-header {
   background-color: #ffffff;
   position: fixed;
+  z-index:9999;
   width: 100%;
   line-height: 60px;
 }
