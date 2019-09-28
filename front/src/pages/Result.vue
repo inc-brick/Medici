@@ -1,11 +1,11 @@
 <template>
-  <div class="result">
+  <el-main>
     <p>お問い合わせありがとうございます！</p>
     <p>担当者からのご連絡お待ちください。</p>
     <div class="back-to-artist-button">
       <router-link to="/"><el-button type="Info">Back to Artist</el-button></router-link>
     </div>
-  </div>
+  </el-main>
 </template>
 
 <script>
