@@ -25,6 +25,7 @@
 import WorkView from "../components/WorkView";
 import EventView from "../components/EventView";
 import MediaView from "../components/MediaView";
+import connector from "../connector/connector";
 
 export default {
   name: "contact",
@@ -54,7 +55,12 @@ export default {
           }
       },
       submit: function () {
-          this.$router.push('/result')
+          let ok = connector.postContactsInfo()
+          if(ok) {
+              this.$router.push('/result')
+          } else {
+              console.log("想定外のエラーが発生しました")
+          }
       }
   }
 }

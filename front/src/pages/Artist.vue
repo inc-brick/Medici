@@ -18,7 +18,7 @@
 import WorkView from "../components/WorkView";
 import EventView from "../components/EventView";
 import MediaView from "../components/MediaView";
-import axios from "axios"
+import connector from "../connector/connector";
 
 export default {
   name: "artist",
@@ -52,8 +52,7 @@ export default {
       }
   },
   created() {
-      axios.get("localhost:8080").then(res => console.log("connected to the server")).catch(() => console.log("failed to connect"))
-      this.artistId = this.$route.params['id']
+      connector.fetchArtistData(1)
   }
 }
 </script>

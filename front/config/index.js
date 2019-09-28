@@ -21,8 +21,8 @@ module.exports = {
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
     // api server host
-    apiServerHost: 'localhost',
-    apiServerPort: '8000',
+    apiServerHost: 'http://localhost',
+    apiServerPort: ':8000',
 
     /**
      * Source Maps
