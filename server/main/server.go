@@ -97,6 +97,29 @@ type ComArtistPrivateInfo struct {
 	FormalName int `json:"formal_name" db:"FORMAL_NAME"`
 }
 
+type ComArtistPrivateInfo struct {
+	ArtistPrivateId int `json:"artist_private_id" db:"ARTIST_PRIVATE_ID"`
+	ArtistId int `json:"artist_id" db:"ARTIST_ID"`
+	PhoneNumber int `json:"phone_number" db:"PHONE_NUMBER"`
+	MailAddress string `json:"mail_address" db:"MAIL_ADDRESS"`
+	PostalCode string `json:"postal_code" db:"POSTAL_CODE"`
+	Address string `json:"address" db:"ADDRESS"`
+	WorkPlacePostalCode string `json:"work_place_postal_code" db:"WORK_PLACE_POSTAL_CODE"`
+	WorkPlaceAddress string `json:"work_place_address" db:"WORK_PLACE_ADDRESS"`
+	FormalName string `json:"formal_name" db:"FORMAL_NAME"`
+}
+
+type ComArtist struct {
+	ArtistId int `json:"artist_id" db:"ARTIST_ID"`
+	Sequence int `json:"sequence" db:"SEQUENCE"`
+	StartDate time.Time `json:"start_date" db:"START_DATE"`
+	EndDate time.Time `json:"end_date" db:"END_DATE"`
+	ArtistNameJa string `json:"artist_name_ja" db:"ARTIST_NAME_JA"`
+	ArtistNameEn string `json:"artist_name_en" db:"ARTIST_NAME_EN"`
+	DescriptionJa string `json:"description_ja" db:"DESCRIPTION_JA"`
+	DescriptionEn string `json:"description_en" db:"DESCRIPTION_EN"`
+}
+
 type ArtWork struct {
 	WorkId int `json:"work_id" db:"WORK_ID"`
 	ArtistId int `json:"artist_id" db:"ARTIST_ID"`
