@@ -10,6 +10,8 @@ import 'element-ui/lib/theme-chalk/index.css';
 import Header from "./components/Header";
 import connector from "./connector";
 import Vue2TouchEvents from "vue2-touch-events";
+import VueYoutube from "vue-youtube";
+import VueVimeoPlayer from "vue-vimeo-player";
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
@@ -18,6 +20,8 @@ Vue.use(VueAnalytics, {
   id: 'UA-147446397-1',
   router
 })
+Vue.use(VueYoutube)
+Vue.use(VueVimeoPlayer)
 
 /* eslint-disable no-new */
 new Vue({
