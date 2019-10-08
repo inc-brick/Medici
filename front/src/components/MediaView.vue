@@ -1,8 +1,13 @@
 <template>
   <div class="block">
-    <el-carousel trigger="click" height="150px" indicator-position="outside" arrow="always">
-      <el-carousel-item v-for="item in 2" :key="item">
-        <h3 class="small">{{ item }}</h3>
+    <el-carousel trigger="click" height="400px" indicator-position="outside" arrow="always">
+      <el-carousel-item v-for="videoId in videoIds" :key="videoId.id">
+        <div v-if="videoId.isYoutube" class="padding">
+          <youtube :video-id="videoId.id" ref="youtube" @playing="playing"></youtube>
+        </div>
+        <div v-else>
+          <vimeo-player ref="player" :video-id="videoId.id" @ready="onReady" :player-height="height"></vimeo-player>
+        </div>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -16,7 +21,29 @@ export default {
     },
     data() {
         return {
-            fit: 'fill'
+            fit: 'fill',
+            videoIds: [
+                {
+                    isYoutube: true,
+                    id: 'nZADYDelP8M'
+                },
+                {
+                    isYoutube: true,
+                    id: 'nxz-UjcoJ5k'
+                },
+                {
+                    isYoutube: false,
+                    id: '114290321'
+                }
+            ],
+        }
+    },
+    methods: {
+        playing() {
+            console.log('\o/ we are watching!!!')
+        },
+        onReady() {
+            this.playerReady = true
         }
     }
 }
@@ -24,19 +51,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.el-carousel__item h3 {
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  line-height: 150px;
-  margin: 0;
-}
-
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n+1) {
-  background-color: #d3dce6;
-}
+  .padding {
+    padding: 0 auto 0;
+  }
 </style>
