@@ -3,7 +3,7 @@
     <h3>Contact</h3>
     <p>3 step で完了します</p>
     <h4>1. ご興味のある作品を選択してください</h4>
-    <WorkView :urls="urls"></WorkView>
+    <WorkView :works="urls"></WorkView>
     <h4>2. ご希望の連絡方法を選択して下さい。後日、担当者からご連絡差し上げます。</h4>
     <el-row>
       <el-col :span="6" :offset="6"><i class="el-icon-message box-shadow" :class="{messageSelected: messageSelected}" @click="selectMessage"></i></el-col>

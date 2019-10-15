@@ -8,8 +8,8 @@
                  v-touch:swipe.left="swipeLeft"
                  v-touch:swipe.right="swipeRight"
                  @change="changeWork">
-        <el-carousel-item v-for="url in urls" :key="url">
-          <el-image :src="url"
+        <el-carousel-item v-for="(work,index) in works" :key="index">
+          <el-image :src="work.url"
                     :fit="carouselConfig.fit"
                     class="style"
           >
@@ -26,7 +26,7 @@
 export default {
     name: 'work-view',
     props: {
-        urls: Array
+        works: Array
     },
     data() {
         return {
