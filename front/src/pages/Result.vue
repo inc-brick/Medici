@@ -3,7 +3,7 @@
     <p>お問い合わせありがとうございます！</p>
     <p>担当者からのご連絡お待ちください。</p>
     <div class="back-to-artist-button">
-      <router-link to="/"><el-button type="Info">Back to Artist</el-button></router-link>
+      <router-link to="/artist/1"><el-button type="Info">Back to Artist</el-button></router-link>
     </div>
   </el-main>
 </template>
