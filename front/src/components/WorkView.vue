@@ -9,6 +9,7 @@
                  v-touch:swipe.right="swipeRight"
                  @change="changeWork"
                  :height="carouselConfig.height"
+                 :initial-index="initialIndex"
                  >
         <el-carousel-item v-for="(work,index) in works" :key="index">
             <el-image :src="work.url"
@@ -39,6 +40,7 @@
 export default {
     name: 'work-view',
     props: {
+        initialIndex: Number,
         works: Array
     },
     data() {

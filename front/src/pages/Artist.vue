@@ -38,6 +38,7 @@ export default {
   },
   methods: {
       changeWork: function (newIndex) {
+          this.$store.dispatch('setCurrentSelectedWork', newIndex)
           this.currentSelectedWork = this.fetchArtistInfo.works[newIndex]['url']
           console.log(this.currentSelectedWork)
       }

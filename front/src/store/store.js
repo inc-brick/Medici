@@ -59,12 +59,17 @@ export default new Vuex.Store({
         //   videoId: '114290321'
         // }
       ]
-    }
+    },
+    currentSelectedWorkIndex: ''
   },
   mutations: {
-
+    setCurrentSelectedWork(state, newIndex) {
+      state.currentSelectedWorkIndex = newIndex;
+    }
   },
   actions: {
-
+    setCurrentSelectedWork(context, index) {
+      context.commit('setCurrentSelectedWork', index)
+    }
   }
 })
