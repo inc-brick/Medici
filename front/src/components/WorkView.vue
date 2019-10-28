@@ -7,16 +7,29 @@
                  ref="carousel"
                  v-touch:swipe.left="swipeLeft"
                  v-touch:swipe.right="swipeRight"
-                 @change="changeWork">
+                 @change="changeWork"
+                 :height="carouselConfig.height"
+                 >
         <el-carousel-item v-for="(work,index) in works" :key="index">
-          <el-image :src="work.url"
-                    :fit="carouselConfig.fit"
-                    class="style"
-          >
-            <div slot="error" class="image-slot">
-              <i class="el-icon-picture-outline"></i>
+            <el-image :src="work.url"
+                      :fit="carouselConfig.fit"
+                      class="style"
+            >
+              <div slot="error" class="image-slot">
+                <i class="el-icon-picture-outline"></i>
+              </div>
+            </el-image>
+          <div style="margin-top: 5px">
+            <div class="image_description" style="text-align: center;font-weight: bold;font-size: 14px">
+              {{work.name}} ({{work.createdYear}})
             </div>
-          </el-image>
+            <div class="image_description" style="text-align: center;font-size: 7px">
+              {{work.height}} × {{work.width}}mm
+            </div>
+            <div class="image_description" style="text-align: center;font-size: 7px">
+              {{work.material}}
+            </div>
+          </div>
         </el-carousel-item>
     </el-carousel>
   </div>
@@ -36,6 +49,7 @@ export default {
                 arrow: 'always',
                 fit: 'contain',
                 autoplay: false,
+                height: '350px'
             }
         }
     },

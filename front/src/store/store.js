@@ -41,11 +41,23 @@ export default new Vuex.Store({
           url: "./../static/reiterate_tree_lines.png"
         }
       ],
-      events: [
-        {
-          id: 1,
-          url: ""
-        }
+      events: [],
+      medias: [
+        // {
+        //   id: 1,
+        //   isYoutube: true,
+        //   videoId: 'nZADYDelP8M'
+        // },
+        // {
+        //   id: 2,
+        //   isYoutube: true,
+        //   videoId: 'nxz-UjcoJ5k'
+        // },
+        // {
+        //   id: 3,
+        //   isYoutube: false,
+        //   videoId: '114290321'
+        // }
       ]
     }
   },
