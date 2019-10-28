@@ -1,12 +1,19 @@
 <template>
   <div class="block">
-    <el-carousel trigger="click" height="400px" indicator-position="outside" arrow="always">
-      <el-carousel-item v-for="videoId in videoIds" :key="videoId.id">
-        <div v-if="videoId.isYoutube" class="padding">
-          <youtube :video-id="videoId.id" ref="youtube" @playing="playing"></youtube>
+    <el-carousel :trigger="carouselConfig.trigger"
+                 :indicator-position="carouselConfig.indicatorPosition"
+                 :arrow="carouselConfig.arrow"
+                 :autoplay="carouselConfig.autoplay"
+                 ref="carousel"
+                 v-touch:swipe.left="swipeLeft"
+                 v-touch:swipe.right="swipeRight"
+                 @change="changeWork">
+      <el-carousel-item v-for="(media,index) in medias" :key="index">
+        <div v-if="media.isYoutube" class="padding">
+          <youtube :video-id="media.videoId" ref="youtube" @playing="playing"></youtube>
         </div>
         <div v-else>
-          <vimeo-player ref="player" :video-id="videoId.id" @ready="onReady" :player-height="height"></vimeo-player>
+          <vimeo-player ref="player" :video-id="media.videoId" @ready="onReady"></vimeo-player>
         </div>
       </el-carousel-item>
     </el-carousel>
@@ -17,25 +24,16 @@
 export default {
     name: 'media-view',
     props: {
-        urls: Array
+        medias: Array
     },
     data() {
         return {
-            fit: 'fill',
-            videoIds: [
-                {
-                    isYoutube: true,
-                    id: 'nZADYDelP8M'
-                },
-                {
-                    isYoutube: true,
-                    id: 'nxz-UjcoJ5k'
-                },
-                {
-                    isYoutube: false,
-                    id: '114290321'
-                }
-            ],
+            carouselConfig: {
+                trigger: 'click',
+                indicatorPosition: 'outside',
+                arrow: 'always',
+                autoplay: false,
+            }
         }
     },
     methods: {
@@ -44,6 +42,18 @@ export default {
         },
         onReady() {
             this.playerReady = true
+        },
+        changeWork: function (newIndex, oldIndex) {
+            console.log("changing-work: to: " + newIndex + " from: " + oldIndex)
+            this.$emit("changing-work", newIndex)
+        },
+        swipeRight: function () {
+            console.log("swipe to right")
+            this.$refs.carousel.prev()
+        },
+        swipeLeft: function () {
+            console.log("swipe to left")
+            this.$refs.carousel.next()
         }
     }
 }
