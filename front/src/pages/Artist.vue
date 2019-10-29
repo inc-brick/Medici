@@ -2,7 +2,7 @@
   <el-main>
     <h3>山本　捷平</h3>
     <h3>Shohei Yamamoto</h3>
-    <WorkView :works="fetchArtistInfo['works']" @changing-work="changeWork"></WorkView>
+    <WorkView :works="fetchArtistInfo['works']" :artist-price-range="fetchArtistInfo['artistPriceRange']" @changing-work="changeWork"></WorkView>
     <h2>About</h2>
     <p class="style">{{this.fetchArtistInfo['description']}}</p>
     <div v-if="fetchArtistInfo['events'].length !== 0">
@@ -10,7 +10,7 @@
       <EventView :events="fetchArtistInfo['events']"></EventView>
     </div>
     <h2>Contacts</h2>
-    <router-link :to="{ name : 'Contact', params : { id: artistId }}"><i class="el-icon-shopping-cart-2"></i></router-link>
+    <router-link :to="{ name : 'Contact', params : { id: fetchArtistInfo.artistId }}"><i class="el-icon-shopping-cart-2"></i></router-link>
     <div v-if="fetchArtistInfo['medias'].length !== 0">
       <h2>Media</h2>
       <MediaView :medias="fetchArtistInfo['medias']"></MediaView>
@@ -29,15 +29,13 @@ export default {
   components: {WorkView, EventView, MediaView},
   data () {
       return {
-          msg: 'Welcome to Your Vue.js App',
-          artistId: 0,
           fetchArtistInfo: {},
           currentSelectedWork: '',
-          currentSelectedEvent: ''
       }
   },
   methods: {
       changeWork: function (newIndex) {
+          this.$store.dispatch('setCurrentSelectedWork', newIndex)
           this.currentSelectedWork = this.fetchArtistInfo.works[newIndex]['url']
           console.log(this.currentSelectedWork)
       }
