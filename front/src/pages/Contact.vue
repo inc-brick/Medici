@@ -37,7 +37,7 @@
         <el-input placeholder="Phone" class="medium" v-model="form.phone"></el-input>
       </el-form-item>
       <el-form-item class="center">
-        <el-button type="primary" @click="submit">Submit</el-button>
+        <el-button type="primary" @click="submit('form')">Submit</el-button>
       </el-form-item>
     </el-form>
   </el-main>
@@ -87,8 +87,16 @@ export default {
               this.phoneSelected = false
           }
       },
-      submit: function () {
-          this.$router.push('/result')
+      submit: function (formName) {
+          this.$refs[formName].validate((valid) => {
+              if (valid) {
+                  alert('submit!');
+                  this.$router.push('/result')
+              } else {
+                  console.log('error submit!!');
+                  return false;
+              }
+          });
       }
   },
   created() {
