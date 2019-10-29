@@ -10,7 +10,7 @@
       <EventView :events="fetchArtistInfo['events']"></EventView>
     </div>
     <h2>Contacts</h2>
-    <router-link :to="{ name : 'Contact', params : { id: artistId }}"><i class="el-icon-shopping-cart-2"></i></router-link>
+    <router-link :to="{ name : 'Contact', params : { id: fetchArtistInfo.artistId }}"><i class="el-icon-shopping-cart-2"></i></router-link>
     <div v-if="fetchArtistInfo['medias'].length !== 0">
       <h2>Media</h2>
       <MediaView :medias="fetchArtistInfo['medias']"></MediaView>
@@ -29,11 +29,8 @@ export default {
   components: {WorkView, EventView, MediaView},
   data () {
       return {
-          msg: 'Welcome to Your Vue.js App',
-          artistId: 0,
           fetchArtistInfo: {},
           currentSelectedWork: '',
-          currentSelectedEvent: ''
       }
   },
   methods: {

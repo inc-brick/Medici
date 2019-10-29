@@ -10,10 +10,32 @@
       <el-col :span="6"><i class="el-icon-phone-outline box-shadow" :class="{phoneSelected: phoneSelected}" @click="selectPhone"></i></el-col>
     </el-row>
     <h4>3. ご連絡先情報を入力してください。</h4>
-    <el-form>
-      <el-form-item><el-input placeholder="Name" class="medium" v-model="name"></el-input></el-form-item>
-      <el-form-item><el-input placeholder="Email" class="medium" v-model="email"></el-input></el-form-item>
-      <el-form-item><el-input placeholder="Phone" class="medium" v-model="phone"></el-input></el-form-item>
+    <el-form :model="form" ref="form">
+      <el-form-item
+        prop="name"
+        :rules="{required: true, message: 'please input your name', trigger: ['blur', 'change']}"
+      >
+        <el-input placeholder="Name" class="medium" v-model="form.name"></el-input>
+      </el-form-item>
+      <el-form-item
+        v-if="messageSelected || (!messageSelected && !phoneSelected)"
+        prop="email"
+        :rules="[
+        {required: true, message: 'please input your email address', trigger: ['blur', 'change']},
+        {type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change']}
+        ]"
+      >
+        <el-input placeholder="Email" class="medium" v-model="form.email"></el-input>
+      </el-form-item>
+      <el-form-item
+        v-if="phoneSelected || (!phoneSelected && !messageSelected)"
+        prop="phone"
+        :rules="[
+        {required: true, message: 'please input your phone number', trigger: ['blur']}
+        ]"
+      >
+        <el-input placeholder="Phone" class="medium" v-model="form.phone"></el-input>
+      </el-form-item>
       <el-form-item class="center">
         <el-button type="primary" @click="submit">Submit</el-button>
       </el-form-item>
@@ -32,14 +54,20 @@ export default {
   data () {
       return {
           works: [],
-          initialImageIndex: '',
+          initialImageIndex: 0,
           msg: 'Welcome to Your Vue.js App',
           urls: ['https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'],
-          name: '',
-          email: '',
-          phone: '',
+          form: {
+              name: '',
+              email: '',
+              phone: '',
+          },
           messageSelected: false,
-          phoneSelected: false
+          phoneSelected: false,
+          inputType: {
+              email: "email",
+              phone: "tel"
+          }
       }
   },
   methods: {

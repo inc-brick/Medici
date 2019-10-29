@@ -64,7 +64,7 @@ export default new Vuex.Store({
         // }
       ]
     },
-    currentSelectedWorkIndex: ''
+    currentSelectedWorkIndex: 0
   },
   mutations: {
     setCurrentSelectedWork(state, newIndex) {
