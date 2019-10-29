@@ -30,6 +30,12 @@
             <div class="image_description" style="text-align: center;font-size: 7px">
               {{work.material}}
             </div>
+            <div v-if="isArtistPage" class="image_description" style="text-align: center;font-size: 7px">
+              作家参考価格: {{artistPriceRange}}
+            </div>
+            <div v-else class="image_description" style="text-align: center;font-size: 7px">
+              作品参考価格: {{work.price}}万円
+            </div>
           </div>
         </el-carousel-item>
     </el-carousel>
@@ -41,7 +47,12 @@ export default {
     name: 'work-view',
     props: {
         initialIndex: Number,
-        works: Array
+        works: Array,
+        artistPriceRange: String,
+        isArtistPage: {
+            type: Boolean,
+            default: true
+        }
     },
     data() {
         return {
@@ -51,7 +62,7 @@ export default {
                 arrow: 'always',
                 fit: 'contain',
                 autoplay: false,
-                height: '350px'
+                height: '370px'
             }
         }
     },

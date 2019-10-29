@@ -2,7 +2,7 @@
   <el-main>
     <h3>山本　捷平</h3>
     <h3>Shohei Yamamoto</h3>
-    <WorkView :works="fetchArtistInfo['works']" @changing-work="changeWork"></WorkView>
+    <WorkView :works="fetchArtistInfo['works']" :artist-price-range="fetchArtistInfo['artistPriceRange']" @changing-work="changeWork"></WorkView>
     <h2>About</h2>
     <p class="style">{{this.fetchArtistInfo['description']}}</p>
     <div v-if="fetchArtistInfo['events'].length !== 0">
