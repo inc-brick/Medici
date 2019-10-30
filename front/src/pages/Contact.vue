@@ -10,12 +10,18 @@
       <el-col :span="6"><i class="el-icon-phone-outline box-shadow" :class="{phoneSelected: phoneSelected}" @click="selectPhone"></i></el-col>
     </el-row>
     <h4>3. ご連絡先情報を入力してください。</h4>
-    <el-form :model="form" ref="form">
+    <el-form v-if="!isSend"
+             :model="formVal"
+             ref="form"
+             :action="'https://docs.google.com/forms/u/1/d/e/1FAIpQLSc10-M1uZi5jD2jmyK_ICom4KipjEWXv6O6xHqTQq6vyvO_hg/formResponse'"
+             target="hidden_iframe"
+             @submit.prevent="submitting('form')"
+    >
       <el-form-item
         prop="name"
         :rules="{required: true, message: 'please input your name', trigger: ['blur', 'change']}"
       >
-        <el-input placeholder="Name" class="medium" v-model="form.name"></el-input>
+        <el-input placeholder="Name" class="medium" :name="formName.name" v-model="formVal.name"></el-input>
       </el-form-item>
       <el-form-item
         v-if="messageSelected || (!messageSelected && !phoneSelected)"
@@ -25,7 +31,7 @@
         {type: 'email', message: 'Please input correct email address', trigger: ['blur', 'change']}
         ]"
       >
-        <el-input placeholder="Email" class="medium" v-model="form.email"></el-input>
+        <el-input placeholder="Email" class="medium" :name="formName.email" v-model="formVal.email"></el-input>
       </el-form-item>
       <el-form-item
         v-if="phoneSelected || (!phoneSelected && !messageSelected)"
@@ -34,10 +40,10 @@
         {required: true, message: 'please input your phone number', trigger: ['blur']}
         ]"
       >
-        <el-input placeholder="Phone" class="medium" v-model="form.phone"></el-input>
+        <el-input placeholder="Phone" class="medium" :name="formName.phone" v-model="formVal.phone"></el-input>
       </el-form-item>
       <el-form-item class="center">
-        <el-button type="primary" @click="submit('form')">Submit</el-button>
+        <el-input :type="'submit'">Submit</el-input>
       </el-form-item>
     </el-form>
   </el-main>
@@ -47,6 +53,7 @@
 import WorkView from "../components/WorkView";
 import EventView from "../components/EventView";
 import MediaView from "../components/MediaView";
+import connector from "../connector";
 
 export default {
   name: "contact",
@@ -57,17 +64,23 @@ export default {
           initialImageIndex: 0,
           msg: 'Welcome to Your Vue.js App',
           urls: ['https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'],
-          form: {
+          formName: {
+              name: "entry.1239827993",
+              email: "entry.1682303839",
+              phone: "entry.1390168152"
+          },
+          formVal: {
               name: '',
               email: '',
-              phone: '',
+              phone: ''
           },
           messageSelected: false,
           phoneSelected: false,
           inputType: {
               email: "email",
               phone: "tel"
-          }
+          },
+          isSend: false
       }
   },
   methods: {
@@ -87,14 +100,21 @@ export default {
               this.phoneSelected = false
           }
       },
-      submit: function (formName) {
+      // submit: function (formName) {
+      //     this.$refs[formName].validate((valid) => {
+      //         if (valid) {
+      //             connector.postGform(this.formVal)
+      //                 .then(() => {
+      //                     this.$router.push("/result")
+      //                 })
+      //         }
+      //     });
+      // },
+      submitting: function (formName) {
           this.$refs[formName].validate((valid) => {
               if (valid) {
-                  alert('submit!');
-                  this.$router.push('/result')
-              } else {
-                  console.log('error submit!!');
-                  return false;
+                  document.form.submit()
+                  this.isSend = true
               }
           });
       }
@@ -102,6 +122,15 @@ export default {
   created() {
       this.works = this.$store.state.fetchArtistInfo.works
       this.initialImageIndex = this.$store.state.currentSelectedWorkIndex
+  },
+  mounted: function() {
+      let iframe = document.createElement("iframe");
+      iframe.setAttribute('name','hidden_iframe');
+      iframe.setAttribute('style','display: none');
+      document.body.appendChild(iframe);
+      if (this.isSend) {
+          this.$router.push("/result")
+      }
   }
 }
 </script>
