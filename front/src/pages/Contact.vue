@@ -2,14 +2,6 @@
   <el-main>
     <h3>Contact</h3>
     <p>3 step で完了します</p>
-    <h4>1. ご興味のある作品を選択してください</h4>
-    <WorkView :works="works" :initial-index="initialImageIndex" :is-artist-page="false"></WorkView>
-    <h4>2. ご希望の連絡方法を選択して下さい。後日、担当者からご連絡差し上げます。</h4>
-    <el-row style="height: 100px">
-      <el-col :span="6" :offset="6"><i class="el-icon-message box-shadow" :class="{messageSelected: messageSelected}" @click="selectMessage"></i></el-col>
-      <el-col :span="6"><i class="el-icon-phone-outline box-shadow" :class="{phoneSelected: phoneSelected}" @click="selectPhone"></i></el-col>
-    </el-row>
-    <h4>3. ご連絡先情報を入力してください。</h4>
     <el-form v-if="!isSend"
              :model="formVal"
              ref="form"
@@ -17,6 +9,24 @@
              target="hidden_iframe"
              @submit.prevent="submitting('form')"
     >
+      <h4>1. ご興味のある作品を選択してください</h4>
+      <el-form-item
+        prop="method"
+      >
+        <WorkView :works="works" :initial-index="initialImageIndex" :is-artist-page="false" @changing-work="changeWork"></WorkView>
+        <el-input type="hidden" :name="formName.works" v-model="formVal.works"></el-input>
+      </el-form-item>
+      <h4>2. ご希望の連絡方法を選択して下さい。<br>　後日、担当者からご連絡差し上げます。</h4>
+      <el-row style="height: 100px">
+        <el-form-item
+          prop="method"
+        >
+          <el-col :span="6" :offset="6"><i class="el-icon-message box-shadow" :class="{messageSelected: messageSelected}" @click="selectMessage"></i></el-col>
+          <el-col :span="6"><i class="el-icon-phone-outline box-shadow" :class="{phoneSelected: phoneSelected}" @click="selectPhone"></i></el-col>
+          <el-input type="hidden" :name="formName.method" v-model="formVal.method"></el-input>
+        </el-form-item>
+      </el-row>
+      <h4>3. ご連絡先情報を入力してください。</h4>
       <el-form-item
         prop="name"
         :rules="{required: true, message: 'please input your name', trigger: ['blur', 'change']}"
@@ -24,7 +34,6 @@
         <el-input placeholder="Name" class="medium" :name="formName.name" v-model="formVal.name"></el-input>
       </el-form-item>
       <el-form-item
-        v-if="messageSelected || (!messageSelected && !phoneSelected)"
         prop="email"
         :rules="[
         {required: true, message: 'please input your email address', trigger: ['blur', 'change']},
@@ -34,10 +43,9 @@
         <el-input placeholder="Email" class="medium" :name="formName.email" v-model="formVal.email"></el-input>
       </el-form-item>
       <el-form-item
-        v-if="phoneSelected || (!phoneSelected && !messageSelected)"
         prop="phone"
         :rules="[
-        {required: true, message: 'please input your phone number', trigger: ['blur']}
+        {required: true, message: 'please input your phone number', trigger: ['blur', 'change']}
         ]"
       >
         <el-input placeholder="Phone" class="medium" :name="formName.phone" v-model="formVal.phone"></el-input>
@@ -53,26 +61,45 @@
 import WorkView from "../components/WorkView";
 import EventView from "../components/EventView";
 import MediaView from "../components/MediaView";
-import connector from "../connector";
 
 export default {
   name: "contact",
   components: {WorkView, EventView, MediaView},
   data () {
+      let validatePhoneNumber = (rule, value, callback) => {
+          if (!value) {
+              return callback(new Error('Please input the phone number'));
+          }
+          setTimeout(() => {
+              if (!Number.isInteger(value)) {
+                  callback(new Error('Please input digits'));
+              } else {
+                  if (value < 18) {
+                      callback(new Error('Age must be greater than 18'));
+                  } else {
+                      callback();
+                  }
+              }
+          }, 1000);
+      };
       return {
           works: [],
           initialImageIndex: 0,
           msg: 'Welcome to Your Vue.js App',
           urls: ['https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'],
           formName: {
+              works: "entry.1372048078",
               name: "entry.1239827993",
               email: "entry.1682303839",
-              phone: "entry.1390168152"
+              phone: "entry.1390168152",
+              method: "entry.1700798423"
           },
           formVal: {
+              works: '',
               name: '',
               email: '',
-              phone: ''
+              phone: '',
+              method: ''
           },
           messageSelected: false,
           phoneSelected: false,
@@ -88,17 +115,19 @@ export default {
           if (!this.messageSelected) {
               this.messageSelected = true
               this.phoneSelected = false
-          } else {
-              this.messageSelected = false
+              this.formVal.method = 'email'
           }
       },
       selectPhone: function () {
           if (!this.phoneSelected) {
               this.phoneSelected = true
               this.messageSelected = false
-          } else {
-              this.phoneSelected = false
+              this.formVal.method = 'phone'
           }
+      },
+      changeWork: function (newIndex) {
+          this.$store.dispatch('setCurrentSelectedWork', newIndex)
+          this.formVal.works = this.works[newIndex]['name']
       },
       // submit: function (formName) {
       //     this.$refs[formName].validate((valid) => {
@@ -112,7 +141,7 @@ export default {
       // },
       submitting: function (formName) {
           this.$refs[formName].validate((valid) => {
-              if (valid) {
+              if (valid && (!this.messageSelected && !this.phoneSelected)) {
                   document.form.submit()
                   this.isSend = true
               }
@@ -136,6 +165,12 @@ export default {
 </script>
 
 <style scoped>
+.el-main {
+  padding: 60px 20px 20px;
+}
+h3 {
+  font-weight: bold;
+}
 .box-shadow {
   box-shadow: 0 10px 10px rgba(0, 0, 0, .12), 0 0 12px rgba(0, 0, 0, .04)
 }
