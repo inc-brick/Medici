@@ -1,17 +1,15 @@
 <template>
   <el-header>
-    <img src="./../assets/brick-logo.png" style="height: 30px; width: 60px">
+    <div class="header_img_block">
+      <img src="../../static/brick-logo.png" class="header_img">
+    </div>
   </el-header>
 </template>
 <script>
 export default {
   name: 'Header',
-  data() {
-      return {
-          url: "/Users/kentatakimur/dev/Medici/front/src/assets/brick-logo.png",
-          fit: "contain",
-          height: "30px"
-      }
+  props: {
+      artistId: Number
   }
 }
 </script>
@@ -23,6 +21,13 @@ export default {
   position: fixed;
   z-index:9999;
   width: 100%;
+  height: 60px;
+}
+.header_img_block {
   line-height: 60px;
+}
+.header_img {
+  height: 30px;
+  vertical-align: middle;
 }
 </style>
