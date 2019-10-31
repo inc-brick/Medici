@@ -1,18 +1,19 @@
 <template>
   <el-main>
-    <h3>山本　捷平</h3>
-    <h3>Shohei Yamamoto</h3>
+    <h3 class="artist_name">山本　捷平<br>Shohei Yamamoto</h3>
     <WorkView :works="fetchArtistInfo['works']" :artist-price-range="fetchArtistInfo['artistPriceRange']" @changing-work="changeWork"></WorkView>
-    <h2>About</h2>
+    <h4>About</h4>
     <p class="style">{{this.fetchArtistInfo['description']}}</p>
     <div v-if="fetchArtistInfo['events'].length !== 0">
-      <h2>Upcoming Events</h2>
+      <h4>Upcoming Events</h4>
       <EventView :events="fetchArtistInfo['events']"></EventView>
     </div>
-    <h2>Contacts</h2>
-    <router-link :to="{ name : 'Contact', params : { id: fetchArtistInfo.artistId }}"><i class="el-icon-shopping-cart-2"></i></router-link>
+    <h4>Contact</h4>
+    <router-link :to="{ name : 'Contact', params : { id: fetchArtistInfo.artistId }}">
+      <el-image :src="'./../static/shopping_cart.png'"></el-image>
+    </router-link>
     <div v-if="fetchArtistInfo['medias'].length !== 0">
-      <h2>Media</h2>
+      <h4>Media</h4>
       <MediaView :medias="fetchArtistInfo['medias']"></MediaView>
     </div>
   </el-main>
@@ -50,6 +51,13 @@ export default {
 </script>
 
 <style scoped>
+h4 {
+  margin-bottom: 5px;
+}
+.artist_name {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
 .el-icon-shopping-cart-2 {
   font-size: 4rem;
 }
