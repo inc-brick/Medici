@@ -67,4 +67,8 @@ h4 {
 .style {
   font-size: 11px;
 }
+.el-image {
+  height: 40px;
+  width: 40px;
+}
 </style>
