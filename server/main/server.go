@@ -6,14 +6,17 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/sessions"
 	"github.com/inc-brick/Medici/server/main/entity"
+	"github.com/inc-brick/Medici/server/main/request"
 	"github.com/inc-brick/Medici/server/main/response"
 	"github.com/jmoiron/sqlx"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo-contrib/session"
+	"github.com/labstack/echo/middleware"
 	"github.com/labstack/gommon/log"
 	"golang.org/x/crypto/bcrypt"
 	"io/ioutil"
 	"net/http"
+	url2 "net/url"
 	"os"
 	"strconv"
 	"strings"
@@ -259,6 +262,48 @@ func dbHealthCheck(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, comArtistPrivateInfo)
 }
+
+func postGoogleForm(c echo.Context) error {
+	req := new(request.GoogleFormParam)
+	if err := c.Bind(req); err != nil {
+		return err
+	}
+	// request bodyの作成
+	reqPram := url2.Values{}
+	reqPram.Add("entry.1239827993", req.Name) // 名前
+	reqPram.Add("entry.1372048078", req.WorkName) // 作品名称
+	reqPram.Add("entry.1700798423", req.Method) // 連絡方法
+	reqPram.Add("entry.1682303839", req.Email) // メールアドレス
+	reqPram.Add("entry.1390168152", req.Phone) // 電話番号
+	// google form のURL
+	url := "https://docs.google.com/forms/u/1/d/e/1FAIpQLSc10-M1uZi5jD2jmyK_ICom4KipjEWXv6O6xHqTQq6vyvO_hg/formResponse"
+	// requestの生成
+	apiReq, err := http.NewRequest("POST", url, strings.NewReader(reqPram.Encode()))
+	if err != nil {
+		log.Error(err)
+		return err
+	}
+	// headerの追加
+	apiReq.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	client := &http.Client{}
+	apiRes, err := client.Do(apiReq) // API実行
+	if err != nil {
+		log.Info(err)
+		return err
+	}
+	defer apiRes.Body.Close()
+
+	if apiRes.StatusCode != http.StatusOK {
+		log.Info(apiRes)
+		return c.JSON(http.StatusInternalServerError, nil)
+	}
+	body, err := ioutil.ReadAll(apiRes.Body)
+	if err != nil {
+		log.Errorf("Can not read response body. %s", err.Error())
+	}
+	return c.JSON(http.StatusOK, body)
+}
+
 func main() {
 	dbHost := os.Getenv("MEDICI_MYSQL_HOST")
 	if dbHost == "" {
@@ -292,12 +337,17 @@ func main() {
 	defer db.Close()
 	e := echo.New()
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("MEDICI_COOKIE_STORE_KEY"))))
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"http://localhost:3000"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAccessControlAllowOrigin},
+	}))
 	e.POST("/signup", signup)
 	e.POST("/login", login)
 	e.POST("/logout", logout)
 	e.POST("/events", test)
 	e.POST("/db/healthCheck", dbHealthCheck)
 	e.POST("/artist/:artistId", fetchArtistInfo)
+	e.POST("/post/contact", postGoogleForm)
 	e.Logger.Fatal(e.Start(":8000"))
 }
 

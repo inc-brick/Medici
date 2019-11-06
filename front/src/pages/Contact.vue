@@ -5,9 +5,7 @@
     <el-form v-if="!isSend"
              :model="formVal"
              ref="form"
-             :action="'https://docs.google.com/forms/u/1/d/e/1FAIpQLSc10-M1uZi5jD2jmyK_ICom4KipjEWXv6O6xHqTQq6vyvO_hg/formResponse'"
              target="hidden_iframe"
-             @submit.prevent="submitting('form')"
     >
       <h4>1. ご興味のある作品を選択してください</h4>
       <el-form-item
@@ -51,7 +49,7 @@
         <el-input placeholder="Phone" class="medium" :name="formName.phone" v-model="formVal.phone"></el-input>
       </el-form-item>
       <el-form-item class="center">
-        <el-input :type="'submit'">Submit</el-input>
+        <el-button :type="'primary'" @click="submit">Submit</el-button>
       </el-form-item>
     </el-form>
   </el-main>
@@ -61,6 +59,7 @@
 import WorkView from "../components/WorkView";
 import EventView from "../components/EventView";
 import MediaView from "../components/MediaView";
+import connector from "../connector";
 
 export default {
   name: "contact",
@@ -129,16 +128,17 @@ export default {
           this.$store.dispatch('setCurrentSelectedWork', newIndex)
           this.formVal.works = this.works[newIndex]['name']
       },
-      // submit: function (formName) {
-      //     this.$refs[formName].validate((valid) => {
-      //         if (valid) {
-      //             connector.postGform(this.formVal)
-      //                 .then(() => {
-      //                     this.$router.push("/result")
-      //                 })
-      //         }
-      //     });
-      // },
+      submit: function () {
+          connector.postGform(this.formVal)
+              .then((res) => {
+                  if (res["status"] === 200) {
+                      this.$router.push("/result")
+                  }
+              })
+              .catch((res) => {
+                  console.error(res)
+              })
+      },
       submitting: function (formName) {
           this.$refs[formName].validate((valid) => {
               if (valid && (!this.messageSelected && !this.phoneSelected)) {
