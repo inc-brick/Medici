@@ -1,10 +1,9 @@
 package request
 
-type contactsParam struct {
-	ArtistId int `json:"artist_id"`
-	WorkId int `json:"work_id"`
-	Method int `json:"method"`
+type GoogleFormParam struct {
 	Name string `json:"name"`
+	WorkName string `json:"work"`
+	Method int `json:"method"`
 	Email string `json:"email"`
 	Phone string `json:"phone"`
 }

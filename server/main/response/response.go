@@ -6,7 +6,8 @@ type FetchArtistInfo struct {
 	ArtistNameENG string `json:"artistNameENG"`
 	Description string `json:"description"`
 	Works []Work `json:"works"`
-	Events []Events `json:"events"`
+	Events []Event `json:"events"`
+	Medias []Media `json:"medias"`
 }
 
 type Work struct {
@@ -19,7 +20,12 @@ type Work struct {
 	Url string `json:"url"`
 }
 
-type Events struct {
+type Event struct {
+	Id int `json:"id"`
+	Url string `json:"url"`
+}
+
+type Media struct {
 	Id int `json:"id"`
 	Url string `json:"url"`
 }
