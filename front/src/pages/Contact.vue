@@ -87,14 +87,14 @@ export default {
           msg: 'Welcome to Your Vue.js App',
           urls: ['https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg'],
           formName: {
-              works: "entry.1372048078",
+              work: "entry.1372048078",
               name: "entry.1239827993",
               email: "entry.1682303839",
               phone: "entry.1390168152",
               method: "entry.1700798423"
           },
           formVal: {
-              works: '',
+              work: '',
               name: '',
               email: '',
               phone: '',
@@ -129,6 +129,7 @@ export default {
           this.formVal.works = this.works[newIndex]['name']
       },
       submit: function () {
+
           connector.postGform(this.formVal)
               .then((res) => {
                   if (res["status"] === 200) {
