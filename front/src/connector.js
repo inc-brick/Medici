@@ -24,7 +24,7 @@ const connector = {
   },
   async postGform(data) {
     let res = await axios.post(
-      "http://10.146.0.2:8000/post/contact",
+      "http://localhost:8000/post/contact",
       data,
       {
         headers: {
