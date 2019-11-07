@@ -129,7 +129,7 @@ export default {
           this.formVal.works = this.works[newIndex]['name']
       },
       submit: function () {
-
+          console.log("submit is called")
           connector.postGform(this.formVal)
               .then((res) => {
                   if (res["status"] === 200) {

@@ -23,7 +23,7 @@ const connector = {
     await axios.post("http://localhost:8080", {})
   },
   async postGform(data) {
-    return await axios.post(
+    let res = await axios.post(
       "http://localhost:8000/post/contact",
       data,
       {
@@ -32,6 +32,8 @@ const connector = {
           "Access-Control-Allow-Origin": "*"
         }
       })
+    console.log(res)
+    return res
   }
 }
 
