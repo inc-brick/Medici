@@ -264,7 +264,7 @@ func dbHealthCheck(c echo.Context) error {
 }
 
 func postGoogleForm(c echo.Context) error {
-	c.Echo().Logger.Fatal("post google form is called")
+	c.Echo().Logger.Info("post google form is called")
 	req := new(request.GoogleFormParam)
 	if err := c.Bind(req); err != nil {
 		return err
