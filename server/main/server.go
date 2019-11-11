@@ -276,11 +276,11 @@ func postGoogleForm(c echo.Context) error {
 	reqPram.Add("entry.1700798423", req.Method) // 連絡方法
 	reqPram.Add("entry.1682303839", req.Email) // メールアドレス
 	reqPram.Add("entry.1390168152", req.Phone) // 電話番号
-	c.Echo().Logger.Fatal("entry.1239827993(name): %s", req.Name)
-	c.Echo().Logger.Fatal("entry.1372048078(work): %s", req.WorkName)
-	c.Echo().Logger.Fatal("entry.1700798423(method): %s", req.Method)
-	c.Echo().Logger.Fatal("entry.1682303839(email): %s", req.Email)
-	c.Echo().Logger.Fatal("entry.1390168152(phone): %s", req.Phone)
+	c.Echo().Logger.Info("entry.1239827993(name): %s", req.Name)
+	c.Echo().Logger.Info("entry.1372048078(work): %s", req.WorkName)
+	c.Echo().Logger.Info("entry.1700798423(method): %s", req.Method)
+	c.Echo().Logger.Info("entry.1682303839(email): %s", req.Email)
+	c.Echo().Logger.Info("entry.1390168152(phone): %s", req.Phone)
 	// google form のURL
 	url := "https://docs.google.com/forms/u/1/d/e/1FAIpQLSc10-M1uZi5jD2jmyK_ICom4KipjEWXv6O6xHqTQq6vyvO_hg/formResponse"
 	// requestの生成
@@ -354,7 +354,7 @@ func main() {
 	e.POST("/db/healthCheck", dbHealthCheck)
 	e.POST("/artist/:artistId", fetchArtistInfo)
 	e.POST("/post/contact", postGoogleForm)
-	e.Logger.Fatal(e.Start(":8000"))
+	e.Logger.Info(e.Start(":8000"))
 }
 
 func authenticated(c echo.Context) (interface{}, error) {
