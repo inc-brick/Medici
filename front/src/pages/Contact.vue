@@ -19,8 +19,12 @@
         <el-form-item
           prop="method"
         >
-          <el-col :span="6" :offset="6"><i class="el-icon-message box-shadow" :class="{messageSelected: messageSelected}" @click="selectMessage"></i></el-col>
-          <el-col :span="6"><i class="el-icon-phone-outline box-shadow" :class="{phoneSelected: phoneSelected}" @click="selectPhone"></i></el-col>
+          <el-col :span="6" :offset="6">
+            <el-image class="adjust" :src="'./../static/mail.png'" :class="{messageSelected: messageSelected}" @click="selectMessage"></el-image>
+          </el-col>
+          <el-col :span="6" :offset="2">
+            <el-image class="adjust" :src="'./../static/phone.png'" :class="{phoneSelected: phoneSelected}" @click="selectPhone"></el-image>
+          </el-col>
           <el-input type="hidden" :name="formName.method" v-model="formVal.method"></el-input>
         </el-form-item>
       </el-row>
@@ -181,11 +185,13 @@ h3 {
 .el-icon-phone-outline {
   font-size: 4rem;
 }
+.adjust {
+  height: 55px;
+  width: 60px;
+  vertical-align: middle;
+}
 .center {
   text-align: center;
-}
-.i {
-  border-radius: 4px;
 }
 .phoneSelected {
   background-color: #8c939d;
