@@ -81,4 +81,8 @@ export default {
   height: 300px;
   width: 100%;
 }
+.el-carousel__arrow {
+  width: 24px;
+  height: 24px;
+}
 </style>

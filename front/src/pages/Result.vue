@@ -1,6 +1,5 @@
 <template>
   <el-main>
-    <p>お問い合わせありがとうございます！</p>
     <p>担当者からのご連絡お待ちください。</p>
     <div class="back-to-artist-button">
       <router-link to="/artist/1"><el-button type="Info">Back to Artist</el-button></router-link>
@@ -15,6 +14,9 @@ export default {
 </script>
 
 <style scoped>
+.el-main {
+  padding: 60px 20px 20px;
+}
 .result{
   margin-top: 12rem;
   font-weight: bold;

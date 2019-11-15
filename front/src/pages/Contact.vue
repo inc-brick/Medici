@@ -1,20 +1,15 @@
 <template>
   <el-main>
     <h3>Contact</h3>
-    <p>3 step で完了します</p>
+    <p><span class="span1">作品の購入をご検討の際には、こちらからお問い合わせください。</span><br>
+      <span class="span2">※購入可能な作品については随時変動いたします。</span></p>
     <el-form v-if="!isSend"
              :model="formVal"
              ref="form"
              target="hidden_iframe"
     >
-      <h4>1. ご興味のある作品を選択してください</h4>
-      <el-form-item
-        prop="method"
-      >
-        <WorkView :works="works" :initial-index="initialImageIndex" :is-artist-page="false" @changing-work="changeWork"></WorkView>
-        <el-input type="hidden" :name="formName.works" v-model="formVal.works"></el-input>
-      </el-form-item>
-      <h4>2. ご希望の連絡方法を選択して下さい。<br>　後日、担当者からご連絡差し上げます。</h4>
+      <WorkView :works="works" :initial-index="initialImageIndex" :is-artist-page="false" @changing-work="changeWork"></WorkView>
+      <h4>1. ご希望の連絡方法を選択して下さい。<br>　後日、担当者からご連絡差し上げます。</h4>
       <el-row style="height: 100px">
         <el-form-item
           prop="method"
@@ -28,7 +23,7 @@
           <el-input type="hidden" :name="formName.method" v-model="formVal.method"></el-input>
         </el-form-item>
       </el-row>
-      <h4>3. ご連絡先情報を入力してください。</h4>
+      <h4>2. ご連絡先情報を入力してください。</h4>
       <el-form-item
         prop="name"
         :rules="{required: true, message: 'please input your name', trigger: ['blur', 'change']}"
@@ -175,6 +170,7 @@ export default {
 }
 h3 {
   font-weight: bold;
+  margin-bottom: 5px;
 }
 .box-shadow {
   box-shadow: 0 10px 10px rgba(0, 0, 0, .12), 0 0 12px rgba(0, 0, 0, .04)
@@ -198,5 +194,14 @@ h3 {
 }
 .messageSelected {
   background-color: #8c939d;
+}
+p {
+  margin-top: 5px;
+}
+.span1 {
+  font-size: 12px;
+}
+.span2 {
+  font-size: 10px;
 }
 </style>
