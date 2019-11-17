@@ -17,7 +17,7 @@ Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(Vue2TouchEvents)
 Vue.use(VueAnalytics, {
-  id: 'UA-147446397-1',
+  id: 'UA-152687870-1',
   router
 })
 Vue.use(VueYoutube)
