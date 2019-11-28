@@ -1,6 +1,6 @@
 <template>
   <el-main>
-    <h3 class="artist_name">山本　捷平<br>Shohei Yamamoto</h3>
+    <h3 class="artist_name">山本　捷平<br>YAMAMOTO Shohei</h3>
     <WorkView :works="fetchArtistInfo['works']" :artist-price-range="fetchArtistInfo['artistPriceRange']" @changing-work="changeWork"></WorkView>
     <h4>About</h4>
     <p class="style">{{this.fetchArtistInfo['description']}}</p>
