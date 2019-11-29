@@ -7,7 +7,7 @@ import Result from "../pages/Result";
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+
   routes: [
     {
       path: '/artist/:id',
