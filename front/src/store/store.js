@@ -50,7 +50,7 @@ export default new Vuex.Store({
           width: 1818,
           material: "パネルに麻布、アクリル絵の具",
           price: "15 ~ 50",
-          url: "./../static/reiterate lines.jpg"
+          url: "./../static/reiterate_lines.jpg"
         }
       ],
       events: [],
