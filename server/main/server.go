@@ -344,7 +344,7 @@ func main() {
 	e := echo.New()
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("MEDICI_COOKIE_STORE_KEY"))))
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://app-brick.com"},
+		AllowOrigins: []string{"https://app-brick.com"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAccessControlAllowOrigin},
 	}))
 	e.POST("/signup", signup)
