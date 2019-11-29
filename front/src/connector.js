@@ -24,7 +24,7 @@ const connector = {
   },
   async postGform(data) {
     let res = await axios.post(
-      "http://app-brick.com:8000/post/contact",
+      "https://app-brick.com/post/contact",
       data,
       {
         headers: {
