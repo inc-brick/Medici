@@ -20,7 +20,7 @@ export default new Vuex.Store({
           width: 9090,
           material: "パネルに麻布、アクリル絵の具、油絵具",
           price: "15 ~ 50",
-          url: "./../static/reiterate_master.png"
+          url: "./../static/reiterate-laocoonte-.jpg"
         },
         {
           id: 2,
@@ -30,7 +30,7 @@ export default new Vuex.Store({
           width: 3240,
           material: "パネルに麻布、アクリル絵の具",
           price: "15 ~ 50",
-          url: "./../static/reiterate_flowers.png"
+          url: "./../static/tree-line.jpg"
         },
         {
           id: 3,
@@ -40,7 +40,17 @@ export default new Vuex.Store({
           width: 455,
           material: "パネルに麻布、アクリル絵の具",
           price: "15 ~ 50",
-          url: "./../static/reiterate_tree_lines.png"
+          url: "./../static/flowers2.jpg"
+        },
+        {
+          id: 4,
+          name: "reiterate - lines - ",
+          createdYear: 2019,
+          height: 2273,
+          width: 1818,
+          material: "パネルに麻布、アクリル絵の具",
+          price: "15 ~ 50",
+          url: "./../static/reiterate_lines.jpg"
         }
       ],
       events: [],
