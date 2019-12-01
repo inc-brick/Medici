@@ -51,6 +51,16 @@ export default new Vuex.Store({
           material: "パネルに麻布、アクリル絵の具",
           price: "15 ~ 50",
           url: "./../static/reiterate_lines.jpg"
+        },
+        {
+          id: 5,
+          name: "reiterate - vagueness ichimatsu -",
+          createdYear: 2019,
+          height: 652,
+          width: 530,
+          material: "パネルに綿布、発泡ウレタン、アクリル絵の具",
+          price: "15 ~ 50",
+          url: "./../static/vagueness_ichimatsu.jpg"
         }
       ],
       events: [],
