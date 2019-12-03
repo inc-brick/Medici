@@ -16,6 +16,10 @@
       <h4>Media</h4>
       <MediaView :medias="fetchArtistInfo['medias']"></MediaView>
     </div>
+    <div style="line-height: 0.2em">
+      <p class="style">本サイトは合同会社brickが運営しています。</p>
+      <p class="style"><a href= "https://inc-brick.com/" >https://inc-brick.com/</a></p>
+    </div>
   </el-main>
 </template>
 
