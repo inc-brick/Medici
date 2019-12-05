@@ -271,18 +271,16 @@ func postGoogleForm(c echo.Context) error {
 	}
 	// request bodyの作成
 	reqPram := url2.Values{}
-	reqPram.Add("entry.1239827993", req.Name) // 名前
-	reqPram.Add("entry.1372048078", req.WorkName) // 作品名称
-	reqPram.Add("entry.1700798423", req.Method) // 連絡方法
-	reqPram.Add("entry.1682303839", req.Email) // メールアドレス
-	reqPram.Add("entry.1390168152", req.Phone) // 電話番号
-	c.Echo().Logger.Info("entry.1239827993(name): %s", req.Name)
-	c.Echo().Logger.Info("entry.1372048078(work): %s", req.WorkName)
-	c.Echo().Logger.Info("entry.1700798423(method): %s", req.Method)
-	c.Echo().Logger.Info("entry.1682303839(email): %s", req.Email)
-	c.Echo().Logger.Info("entry.1390168152(phone): %s", req.Phone)
+	reqPram.Add("entry.1353822267", req.Name) // 名前
+	reqPram.Add("entry.439197123", req.Method) // 連絡方法
+	reqPram.Add("entry.401859609", req.Email) // メールアドレス
+	reqPram.Add("entry.1666963673", req.Phone) // 電話番号
+	c.Echo().Logger.Info("entry.1353822267(name): %s", req.Name)
+	c.Echo().Logger.Info("entry.439197123(method): %s", req.Method)
+	c.Echo().Logger.Info("entry.401859609(email): %s", req.Email)
+	c.Echo().Logger.Info("entry.1666963673(phone): %s", req.Phone)
 	// google form のURL
-	url := "https://docs.google.com/forms/u/1/d/e/1FAIpQLSc10-M1uZi5jD2jmyK_ICom4KipjEWXv6O6xHqTQq6vyvO_hg/formResponse"
+	url := "https://docs.google.com/forms/u/2/d/e/1FAIpQLSdCTxiYKJM3t_rIyOvmxvmNrDGCHICYlj--XhdCjXrlWf2T1g/formResponse"
 	// requestの生成
 	apiReq, err := http.NewRequest("POST", url, strings.NewReader(reqPram.Encode()))
 	if err != nil {
