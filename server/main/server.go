@@ -5,6 +5,7 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/sessions"
+	"github.com/inc-brick/Medici/server/main/constant"
 	"github.com/inc-brick/Medici/server/main/entity"
 	"github.com/inc-brick/Medici/server/main/request"
 	"github.com/inc-brick/Medici/server/main/response"
@@ -25,6 +26,7 @@ import (
 
 var (
 	db *sqlx.DB
+	env string
 	err error
 )
 
@@ -271,16 +273,35 @@ func postGoogleForm(c echo.Context) error {
 	}
 	// request bodyの作成
 	reqPram := url2.Values{}
-	reqPram.Add("entry.1353822267", req.Name) // 名前
-	reqPram.Add("entry.439197123", req.Method) // 連絡方法
-	reqPram.Add("entry.401859609", req.Email) // メールアドレス
-	reqPram.Add("entry.1666963673", req.Phone) // 電話番号
-	c.Echo().Logger.Info("entry.1353822267(name): %s", req.Name)
-	c.Echo().Logger.Info("entry.439197123(method): %s", req.Method)
-	c.Echo().Logger.Info("entry.401859609(email): %s", req.Email)
-	c.Echo().Logger.Info("entry.1666963673(phone): %s", req.Phone)
-	// google form のURL
-	url := "https://docs.google.com/forms/u/2/d/e/1FAIpQLSdCTxiYKJM3t_rIyOvmxvmNrDGCHICYlj--XhdCjXrlWf2T1g/formResponse"
+	url := ""
+	// 本番環境か開発環境か
+	if env == constant.PROD {
+		// 本番環境の場合
+		reqPram.Add("entry.1353822267", req.Name) // 名前
+		reqPram.Add("entry.439197123", req.Method) // 連絡方法
+		reqPram.Add("entry.401859609", req.Email) // メールアドレス
+		reqPram.Add("entry.1666963673", req.Phone) // 電話番号
+		c.Echo().Logger.Info("entry.1353822267(name): %s", req.Name)
+		c.Echo().Logger.Info("entry.439197123(method): %s", req.Method)
+		c.Echo().Logger.Info("entry.401859609(email): %s", req.Email)
+		c.Echo().Logger.Info("entry.1666963673(phone): %s", req.Phone)
+		// google form のURL
+		url = "https://docs.google.com/forms/u/2/d/e/1FAIpQLSdCTxiYKJM3t_rIyOvmxvmNrDGCHICYlj--XhdCjXrlWf2T1g/formResponse"
+	} else if env == constant.DEV {
+		// 開発環境の場合
+		reqPram.Add("entry.1239827993", req.Name) // 名前
+		reqPram.Add("entry.1700798423", req.Method) // 連絡方法
+		reqPram.Add("entry.1682303839", req.Email) // メールアドレス
+		reqPram.Add("entry.1390168152", req.Phone) // 電話番号
+		c.Echo().Logger.Info("entry.1239827993(name): %s", req.Name)
+		c.Echo().Logger.Info("entry.1700798423(method): %s", req.Method)
+		c.Echo().Logger.Info("entry.1682303839(email): %s", req.Email)
+		c.Echo().Logger.Info("entry.1390168152(phone): %s", req.Phone)
+		// google form のURL
+		url = "https://docs.google.com/forms/u/1/d/e/1FAIpQLSc10-M1uZi5jD2jmyK_ICom4KipjEWXv6O6xHqTQq6vyvO_hg/formResponse"
+	} else {
+		log.Warn("Environment is not applicable for this server")
+	}
 	// requestの生成
 	apiReq, err := http.NewRequest("POST", url, strings.NewReader(reqPram.Encode()))
 	if err != nil {
@@ -309,6 +330,7 @@ func postGoogleForm(c echo.Context) error {
 }
 
 func main() {
+	env = os.Getenv("env")
 	dbHost := os.Getenv("MEDICI_MYSQL_HOST")
 	if dbHost == "" {
 		dbHost = "127.0.0.1"
