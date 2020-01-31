@@ -1,0 +1,16 @@
+# gooseはマルチDBに対応していないのでDBごとにコネクション情報を用意する必要がある
+local_medici_master:
+  driver: mysql
+  open: medici:medici_local@unix(/tmp/mysql.sock)/medici_master
+
+local_medici_user:
+  driver: mysql
+  open: medici:medici_local@unix(/tmp/mysql.sock)/medici_user
+
+dev_medici_master:
+  driver: mysql
+  open: medici:medici_local@unix(/tmp/mysql.sock)/medici_user
+
+dev_medici_user:
+  driver: mysql
+  open: medici:medici_local@unix(/tmp/mysql.sock)/medici_user
