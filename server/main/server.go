@@ -2,32 +2,28 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
+	"flag"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/sessions"
 	"github.com/inc-brick/Medici/server/main/constant"
-	"github.com/inc-brick/Medici/server/main/entity"
 	"github.com/inc-brick/Medici/server/main/request"
 	"github.com/inc-brick/Medici/server/main/response"
-	"github.com/jmoiron/sqlx"
+	"github.com/inc-brick/Medici/server/main/service"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/middleware"
 	"github.com/labstack/gommon/log"
-	"golang.org/x/crypto/bcrypt"
 	"io/ioutil"
 	"net/http"
 	url2 "net/url"
-	"os"
 	"strconv"
 	"strings"
 	"time"
 )
 
 var (
-	db *sqlx.DB
-	env string
-	err error
+	env    string
+	err    error
 )
 
 
@@ -91,84 +87,90 @@ type Series struct {
 }
 
 type User struct {
-	Id int64 `json:"user_id" db:"id"`
-	UserName string `json:"username" db:"username"`
-	Password string `json:"-" db:"digested_password"`
-	CreatedAt time.Time `json:"-" db:"created_at"`
-	UpdatedAt time.Time `json:"-" db:"updated_at"`
+	Id int64 `json:"user_id" master:"id"`
+	UserName string `json:"username" master:"username"`
+	Password string `json:"-" master:"digested_password"`
+	CreatedAt time.Time `json:"-" master:"created_at"`
+	UpdatedAt time.Time `json:"-" master:"updated_at"`
 }
 
 func init() {
 }
 
 func signup(c echo.Context) error {
-	log.Info("singup is called")
-	req := new(SignupParam)
-	if err := c.Bind(req); err != nil {
-		return err
-	}
-	// validation
-	if req.Password != req.PasswordConfirmation {
-		return c.JSON(http.StatusBadRequest, "password is not matched")
-	}
-	if len(req.Password) < 8 {
-		return c.JSON(http.StatusBadRequest, "password length less than 8")
-	}
-	log.Info("password validation: OK")
-	// store
-	digestedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
-	if err != nil {
-		log.Errorf("Failed to encrypt password. %s", err.Error())
-	}
-	log.Info("password encryption: OK")
-	tx, err := db.Begin()
-	if err != nil {
-		log.Errorf("Failed to begin transaction. %s", err.Error())
-	}
-	log.Info("transaction begin: OK")
-	res, err := tx.Exec("INSERT INTO `users` (`id`, `username`, `digested_password`, `created_at`, `updated_at`) VALUES (null, ?,?,?,?)",
-		req.UserName,
-		digestedPassword,
-		time.Now(),
-		time.Now())
-	if err != nil {
-		log.Errorf("Failed to execute query. %s", err.Error())
-	}
-	err = tx.Commit()
-	if err != nil {
-		log.Errorf("Failed to commit. %s", err.Error())
-	}
-	log.Info("db execution: OK %s", res)
-
-	// session
-	lastInsertedId, _ := res.LastInsertId()
-	saveSession(lastInsertedId, req.UserName, true, c)
-	// select user
-	var user User
-	if err := db.Get(&user,"SELECT * FROM `users` WHERE `id` = ?", lastInsertedId); err != nil {
-		log.Errorf("Failed to execute query. %s", err.Error())
-	}
-	return c.JSON(http.StatusOK, user)
+//	log.Info("singup is called")
+//	req := new(SignupParam)
+//	if err := c.Bind(req); err != nil {
+//		return err
+//	}
+//	// validation
+//	if req.Password != req.PasswordConfirmation {
+//		return c.JSON(http.StatusBadRequest, "password is not matched")
+//	}
+//	if len(req.Password) < 8 {
+//		return c.JSON(http.StatusBadRequest, "password length less than 8")
+//	}
+//	log.Info("password validation: OK")
+//	// store
+//	digestedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+//	if err != nil {
+//		log.Errorf("Failed to encrypt password. %s", err.Error())
+//	}
+//	log.Info("password encryption: OK")
+//	tx, err := dataAccess.Master.Begin()
+//	if err != nil {
+//		log.Errorf("Failed to begin transaction. %s", err.Error())
+//	}
+//	log.Info("transaction begin: OK")
+//	res, err := tx.Exec("INSERT INTO `users` (`id`, `username`, `digested_password`, `created_at`, `updated_at`) VALUES (null, ?,?,?,?)",
+//		req.UserName,
+//		digestedPassword,
+//		time.Now(),
+//		time.Now())
+//	if err != nil {
+//		log.Errorf("Failed to execute query. %s", err.Error())
+//	}
+//	err = tx.Commit()
+//	if err != nil {
+//		log.Errorf("Failed to commit. %s", err.Error())
+//	}
+//	log.Info("master execution: OK %s", res)
+//
+//	// session
+//	lastInsertedId, _ := res.LastInsertId()
+//	saveSession(lastInsertedId, req.UserName, true, c)
+//	// select user
+//	var user User
+//	if err := dataAccess.User.Get(&user,"SELECT * FROM `users` WHERE `id` = ?", lastInsertedId); err != nil {
+//		log.Errorf("Failed to execute query. %s", err.Error())
+//	}
+	return c.JSON(http.StatusOK, response.Response{
+		Code: "",
+		Data: nil,
+	})
 }
 
 func login(c echo.Context) error {
-	log.Info("login is called")
-	req := new(LoginParam)
-	if err := c.Bind(req); err != nil {
-		return err
-	}
-	var user User
-	if err := db.Get(&user, "SELECT * FROM `users` WHERE `username` = ?", req.UserName); err != nil {
-		log.Errorf("Failed to execute query. %s", err.Error())
-		return c.JSON(http.StatusUnauthorized, "Can not find user")
-	}
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil{
-		log.Info(err)
-		return c.JSON(http.StatusUnauthorized, "password doesn't match")
-	}
-	// session
-	saveSession(user.Id, user.UserName, true, c)
-	return c.JSON(http.StatusOK, user)
+	//log.Info("login is called")
+	//req := new(LoginParam)
+	//if err := c.Bind(req); err != nil {
+	//	return err
+	//}
+	//var user User
+	//if err := dataAccess.User.Get(&user, "SELECT * FROM `users` WHERE `username` = ?", req.UserName); err != nil {
+	//	log.Errorf("Failed to execute query. %s", err.Error())
+	//	return c.JSON(http.StatusUnauthorized, "Can not find user")
+	//}
+	//if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil{
+	//	log.Info(err)
+	//	return c.JSON(http.StatusUnauthorized, "password doesn't match")
+	//}
+	//// session
+	//saveSession(user.Id, user.UserName, true, c)
+	return c.JSON(http.StatusOK, response.Response{
+		Code: "",
+		Data: nil,
+	})
 }
 
 func logout(c echo.Context) error {
@@ -248,21 +250,11 @@ func fetchArtistInfo(c echo.Context) error {
 	// MediaTrnから情報を取得
 	// response作って返す
 
-	//if err := db.Get(&user, "SELECT * FROM `users` WHERE `username` = ?", req.UserName); err != nil {
+	//if err := master.Get(&user, "SELECT * FROM `users` WHERE `username` = ?", req.UserName); err != nil {
 	//	log.Errorf("Failed to execute query. %s", err.Error())
 	//	return c.JSON(http.StatusUnauthorized, "Can not find user")
 	//}
 	return c.JSON(http.StatusOK, res)
-}
-
-func dbHealthCheck(c echo.Context) error {
-	log.Info("login is called")
-	var comArtistPrivateInfo entity.ComArtistPrivateInfo
-	if err := db.Get(&comArtistPrivateInfo, "SELECT * FROM `COM_ARTIST_PIVATE_INFO_MST`"); err != nil {
-		log.Errorf("Failed to execute query. %s", err.Error())
-		return c.JSON(http.StatusUnauthorized, "Can not find user")
-	}
-	return c.JSON(http.StatusOK, comArtistPrivateInfo)
 }
 
 func postGoogleForm(c echo.Context) error {
@@ -330,37 +322,10 @@ func postGoogleForm(c echo.Context) error {
 }
 
 func main() {
-	env = os.Getenv("env")
-	dbHost := os.Getenv("MEDICI_MYSQL_HOST")
-	if dbHost == "" {
-		dbHost = "127.0.0.1"
-	}
-	dbPort := os.Getenv("MEDICI_MYSQL_PORT")
-	if dbPort == "" {
-		dbPort = "3306"
-	}
-	_, err := strconv.Atoi(dbPort)
-	if err != nil {
-		log.Fatalf("failed to read DB port number from an environment variable MYSQL_PORT.\nError: %s", err.Error())
-	}
-	dbUserName := os.Getenv("MEDICI_MYSQL_USERNAME")
-	if dbUserName == "" {
-		dbUserName = "brickdev01"
-	}
-	dbPassword := os.Getenv("MEDICI_MYSQL_PASSWORD")
-	if dbPassword == "" {
-		dbPassword = "brickdev012019"
-	}
-	dbName := os.Getenv("MEDICI_MYSQL_DBNAME")
-	if dbName == "" {
-		dbName = "medici"
-	}
-	datasource := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=true&loc=Local", dbUserName, dbPassword, dbHost, dbPort, dbName)
-	db, err = sqlx.Open("mysql", datasource)
-	if err != nil {
-		log.Fatalf("failed to connect to DB: %s.", err.Error())
-	}
-	defer db.Close()
+	flag.StringVar(&env, "env", "local", "please specify the environment which you want to execute this application")
+	mainService := service.InitService(env)
+	defer mainService.DataAccess.Master.Close()
+	defer mainService.DataAccess.User.Close()
 	e := echo.New()
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("MEDICI_COOKIE_STORE_KEY"))))
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
@@ -371,7 +336,7 @@ func main() {
 	e.POST("/login", login)
 	e.POST("/logout", logout)
 	e.POST("/events", test)
-	e.POST("/db/healthCheck", dbHealthCheck)
+	e.POST("/master/healthCheck", mainService.DbHealthCheckService().HealthCheck)
 	e.POST("/artist/:artistId", fetchArtistInfo)
 	e.POST("/post/contact", postGoogleForm)
 	e.Logger.Info(e.Start(":8000"))
