@@ -239,7 +239,7 @@ func fetchArtistInfo(c echo.Context) error {
 		log.Fatal("Could not parse artistId. artistId: %s ¥nCause is... %s", artistId, err.Error())
 		return c.JSON(http.StatusBadRequest, "Can not find artist")
 	}
-	var res response.FetchArtistInfo
+	var res response.GetArtistInfoResponse
 	res.ArtistId = artistId
 	
 
@@ -337,7 +337,7 @@ func main() {
 	e.POST("/logout", logout)
 	e.POST("/events", test)
 	e.POST("/master/healthCheck", mainService.DbHealthCheckService().HealthCheck)
-	e.POST("/artist/:artistId", fetchArtistInfo)
+	e.GET("/artist/:artistId", mainService.ArtistService().GetArtistInfo)
 	e.POST("/post/contact", postGoogleForm)
 	e.Logger.Info(e.Start(":8000"))
 }
