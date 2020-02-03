@@ -1,6 +1,6 @@
 package response
 
-type FetchArtistInfo struct {
+type GetArtistInfoResponse struct {
 	ArtistId int `json:"artistId"`
 	ArtistNameJPN string `json:"artistNameJPN"`
 	ArtistNameENG string `json:"artistNameENG"`

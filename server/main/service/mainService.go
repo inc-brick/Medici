@@ -15,3 +15,7 @@ func InitService(env string) Service {
 func (s Service) DbHealthCheckService() DbHealthCheckService {
 	return InitDbHealthCheckService(s)
 }
+
+func (s Service) ArtistService() ArtistService {
+	return InitArtistService(s)
+}
