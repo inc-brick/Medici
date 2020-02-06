@@ -1,7 +1,7 @@
 <template>
   <el-header>
     <div class="header_img_block">
-      <img src="../../static/brick-logo.png" class="header_img">
+      <img src="../../../static/brick-logo.png" class="header_img">
     </div>
   </el-header>
 </template>

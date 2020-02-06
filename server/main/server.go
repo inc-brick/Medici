@@ -279,7 +279,7 @@ func postGoogleForm(c echo.Context) error {
 		c.Echo().Logger.Info("entry.1666963673(phone): %s", req.Phone)
 		// google form のURL
 		url = "https://docs.google.com/forms/u/2/d/e/1FAIpQLSdCTxiYKJM3t_rIyOvmxvmNrDGCHICYlj--XhdCjXrlWf2T1g/formResponse"
-	} else if env == constant.DEV {
+	} else if env == constant.DEV || env == constant.LOCAL {
 		// 開発環境の場合
 		reqPram.Add("entry.1239827993", req.Name) // 名前
 		reqPram.Add("entry.1700798423", req.Method) // 連絡方法
@@ -329,7 +329,7 @@ func main() {
 	e := echo.New()
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("MEDICI_COOKIE_STORE_KEY"))))
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins: []string{"http://app-brick.com"},
+		AllowOrigins: []string{"http://app-brick.com", "http://localhost:3000"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAccessControlAllowOrigin},
 	}))
 	e.POST("/signup", signup)
