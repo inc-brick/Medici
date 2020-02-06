@@ -7,8 +7,7 @@ import VueAnalytics from 'vue-analytics'
 import store from './store/store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
-import Header from "./components/Header";
-import connector from "./connector";
+import Header from "./presentations/components/Header";
 import Vue2TouchEvents from "vue2-touch-events";
 import VueYoutube from "vue-youtube";
 import VueVimeoPlayer from "vue-vimeo-player";
@@ -28,7 +27,6 @@ new Vue({
   el: '#app',
   router,
   store,
-  connector,
   components: { App, Header},
   template: '<App/>'
 })

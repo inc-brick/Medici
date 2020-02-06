@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Artist from '@/pages/Artist'
-import Contact from "../pages/Contact";
-import Result from "../pages/Result";
+import Artist from '../presentations/pages/Artist'
+import Contact from "../presentations/pages/Contact";
+import Result from "../presentations/pages/Result";
 
 Vue.use(Router)
 

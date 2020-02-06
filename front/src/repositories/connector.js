@@ -6,7 +6,9 @@ const ENV = {
   PRODUCTION: "production"
 }
 
-const connector = {
+const BASE_URL = process.env.NODE_ENV === ENV.PRODUCTION ? "https://app-brick.com" : "http://localhost:8000"
+
+export const connector = {
   // TODO(takimura): このままだとCORSのエラーになる。サーバー側の修正が必要
   async getArtistData() {
     if (process.env.NODE_ENV === ENV.DEVELOPMENT) {
@@ -35,4 +37,6 @@ const connector = {
   }
 }
 
-export default connector
+export default axios.create({
+  baseURL: BASE_URL
+})

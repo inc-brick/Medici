@@ -58,8 +58,9 @@
 import WorkView from "../components/WorkView";
 import EventView from "../components/EventView";
 import MediaView from "../components/MediaView";
-import connector from "../connector";
+import RepositoryFactory from "../../repositories/repositoryFactory"
 
+const ContactRepository = RepositoryFactory.get("contact")
 export default {
   name: "contact",
   components: {WorkView, EventView, MediaView},
@@ -127,9 +128,9 @@ export default {
           this.$store.dispatch('setCurrentSelectedWork', newIndex)
           this.formVal.works = this.works[newIndex]['name']
       },
-      submit: function () {
+      submit: async function () {
           console.log("submit is called")
-          connector.postGform(this.formVal)
+          await ContactRepository.postGform(this.formVal)
               .then((res) => {
                   if (res["status"] === 200) {
                       this.$router.push("/result")

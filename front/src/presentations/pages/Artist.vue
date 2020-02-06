@@ -28,8 +28,9 @@
 import WorkView from "../components/WorkView";
 import EventView from "../components/EventView";
 import MediaView from "../components/MediaView";
-import connector from "../connector";
+import RepositoryFactory from "../../repositories/repositoryFactory"
 
+const ArtistRepository = RepositoryFactory.get['artist']
 export default {
   name: "artist",
   components: {WorkView, EventView, MediaView},
@@ -47,7 +48,7 @@ export default {
       }
   },
   created() {
-      connector.getArtistData()
+      ArtistRepository.fetchArtistInfo()
       console.log("connector.getArtistData is called")
       console.log(this.fetchArtistInfo)
       this.fetchArtistInfo = this.$store.state.fetchArtistInfo
