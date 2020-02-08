@@ -56,7 +56,24 @@ export const state = {
       url: "./../static/vagueness_ichimatsu.jpg"
     }
   ],
-  events: [],
+  events: [
+    {
+      id: 1,
+      name: "ARTISTS' FAIR KYOTO 2020",
+      schedule: "February 29-March 1, 2020",
+      place: "京都文化博物館 別館 京都新聞ビル 地下 1階",
+      photoUrl: "./../static/Event_ArtistsFairKyoto.png",
+      eventUrl: "https://artists-fair.kyoto/"
+    },
+    {
+      id: 2,
+      name: "Re: Reiterate",
+      schedule: "January 1-January 26, 2020",
+      place: "アンスティチュ・フランセ東京",
+      photoUrl: "./../static/Event_Re-Reiterate.jpeg",
+      eventUrl: "https://www.institutfrancais.jp/tokyo/agenda/shohei-yamamoto/"
+    }
+  ],
   medias: [
   // {
   //   id: 1,

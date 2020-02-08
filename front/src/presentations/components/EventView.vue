@@ -7,16 +7,32 @@
                  ref="carousel"
                  v-touch:swipe.left="swipeLeft"
                  v-touch:swipe.right="swipeRight"
-                 @change="changeWork">
-      <el-carousel-item v-for="(event,index) in events" :key="index">
-        <el-image :src="event.url"
-                  :fit="carouselConfig.fit"
-                  class="style"
-        >
-          <div slot="error" class="image-slot">
-            <i class="el-icon-picture-outline"></i>
-          </div>
-        </el-image>
+                 @change="changeWork"
+                 :height="carouselConfig.height"
+                 :initial-index="initialIndex"
+                 >
+        <el-carousel-item v-for="(event,index) in events" :key="index">
+        　<a :href="event.eventUrl">
+            <el-image :src="event.photoUrl"
+                      :fit="carouselConfig.fit"
+                      class="style"
+            >
+              <div slot="error" class="image-slot">
+                <i class="el-icon-picture-outline"></i>
+              </div>
+            </el-image>
+          </a>
+          <div style="margin-top: 5px">
+            <div class="image_description" style="text-align: center;font-weight: bold;font-size: 14px">
+              {{event.name}}
+            </div>
+            <div class="image_description" style="text-align: center;font-size: 7px">
+              {{event.schedule}}
+            </div>
+            <div class="image_description" style="text-align: center;font-size: 7px">
+              {{event.place}}
+            </div>
+        </div>
       </el-carousel-item>
     </el-carousel>
   </div>
@@ -26,6 +42,7 @@
 export default {
     name: 'event-view',
     props: {
+        initialIndex: Number,
         events: Array
     },
     data() {
@@ -36,6 +53,7 @@ export default {
                 arrow: 'always',
                 fit: 'contain',
                 autoplay: false,
+                height: '200px'
             }
         }
     },
@@ -59,7 +77,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .style {
-  height: 300px;
+  height: 150px;
   width: 100%;
+}
+.el-carousel__arrow {
+  width: 24px;
+  height: 24px;
 }
 </style>
