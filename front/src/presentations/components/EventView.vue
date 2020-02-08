@@ -12,7 +12,7 @@
                  :initial-index="initialIndex"
                  >
         <el-carousel-item v-for="(event,index) in events" :key="index">
-        　<a :href="event.eventUrl">
+        　<a :href="event.eventUrl" target="_blank">
             <el-image :src="event.photoUrl"
                       :fit="carouselConfig.fit"
                       class="style"
