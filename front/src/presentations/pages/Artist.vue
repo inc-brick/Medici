@@ -30,7 +30,7 @@ import EventView from "../components/EventView";
 import MediaView from "../components/MediaView";
 import RepositoryFactory from "../../repositories/repositoryFactory"
 
-const ArtistRepository = RepositoryFactory.get['artist']
+const ArtistRepository = RepositoryFactory.get('artist')
 export default {
   name: "artist",
   components: {WorkView, EventView, MediaView},
